@@ -5,8 +5,13 @@ const tasksApi = {
     return apiClient.get('/tasks');
   },
 
-  create(title) {
-    return apiClient.post('/tasks', { title });
+  create(data) {
+    return apiClient.post('/tasks', {
+      title: data.title,
+      ...(data.imgAttachmentKey
+        ? { img_attachment_key: data.imgAttachmentKey }
+        : {}),
+    });
   },
 
   update(id, data) {
@@ -15,6 +20,22 @@ const tasksApi = {
 
   remove(id) {
     return apiClient.delete(`/tasks/${id}`);
+  },
+
+  uploadImage(file, description = '') {
+    const formData = new FormData();
+
+    formData.append('file', file);
+
+    if (description) {
+      formData.append('description', description);
+    }
+
+    return apiClient.post('/uploads/images/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   },
 };
 
