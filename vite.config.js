@@ -8,6 +8,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
   plugins: [
     vue(),
+
     VitePWA({
       registerType: 'autoUpdate',
       strategies: 'injectManifest',
@@ -58,5 +59,10 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
+  },
+
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
   },
 })
